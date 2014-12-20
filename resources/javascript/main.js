@@ -7,6 +7,7 @@ function setChannel(Channel)
 {
 	if(Channel)
 	{
+		currentStream=Channel;
 		window.location.hash = $(streamXML).find('channel[id="'+Channel+'"]').attr('id');
 		$('.Button').each(function(button){
 			$(this).removeClass("selected");
@@ -22,9 +23,14 @@ function setChannel(Channel)
 		setChannel( $(streamXML).find('channel[default="1"]').attr('id') );
 	}
 }
-
-function Alertaroni() {
-	alert(streamXML);
+//Redraws Player
+function redrawPlayer()
+{
+	var embed = $(streamXML).find('channel[id="'+currentStream+'"]').find('StreamEmbed').text();
+	//add sizing stuff
+	embed=embed.replace(/WIDVAR/g, $( "#Player" ).innerWidth());
+	embed=embed.replace(/HEIVAR/g, $( "#Player" ).innerHeight());
+	$('#Player').html( embed );
 }
 
 //redraws the directory at the top
@@ -50,7 +56,8 @@ function redrawList()
 		}
 	});
 }
-//from 'ben' on stackoverflow. Thank you kindly my man
+//turns XML to string
+//from IBM's Aleksandar Kolundzija. http://www.ibm.com/developerworks/xml/tutorials/x-processxmljquerytut/index.html
 function getXmlAsString(xmlDom){
       return (typeof XMLSerializer!=="undefined") ? 
            (new window.XMLSerializer()).serializeToString(xmlDom) : 
@@ -91,4 +98,7 @@ $(document).ready(function(){
 	
 	//Grab site hash, if none set it
 
+});
+$(window).resize(function() {
+	redrawPlayer();
 });
