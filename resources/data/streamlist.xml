@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ChannelList>
+	<channel id="1" default="1">
+		<ChannelName>Channel One</ChannelName>
+		<Type>Stream</Type>
+		<Status>Public</Status>
+		<ChannelMessage>Channel One: It's what's cooking.</ChannelMessage>
+		<StreamEmbed><![CDATA[ <iframe width="WIDVAR" height="HEIVAR" src="http://www.youtube.com/embed/yaqe1qesQ8c?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>]]></StreamEmbed>
+	</channel>
+	<channel id="2">
+		<ChannelName>Channel Two</ChannelName>
+		<Type>Stream</Type>
+		<Status>Public</Status>
+		<ChannelMessage>Perhaps Breakfast</ChannelMessage>
+		<StreamEmbed><![CDATA[ <img src="http://placehold.it/WIDVARxHEIVAR">]]></StreamEmbed>
+	</channel>		
+	<channel id="3">
+		<ChannelName>Channel Three</ChannelName>
+		<Type>Stream</Type>
+		<Status>Public</Status>
+		<ChannelMessage>Perhaps Breakfast</ChannelMessage>
+		<StreamEmbed><![CDATA[<iframe width="WIDVAR" height="HEIVAR" src="http://www.youtube.com/embed/SDmuzMgMsc0?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>]]></StreamEmbed>
+	</channel>
+	<channel id="4">
+		<ChannelName>example.com</ChannelName>
+		<Type>Outlink</Type>
+		<Status>Public</Status>
+		<Link>http://www.example.com</Link>
+		<Target>_blank</Target>
+	</channel>
+</ChannelList>
