@@ -7,18 +7,17 @@ function setChannel(Channel)
 {
 	if(Channel)
 	{
-		
+		window.location.hash = $(streamXML).find('channel[id="'+Channel+'"]').attr('id');
 		$('.Button').each(function(button){
 			$(this).removeClass("selected");
 		});
-		
+		$('#'+Channel).addClass("selected");
 		var embed = $(streamXML).find('channel[id="'+Channel+'"]').find('StreamEmbed').text();
 		//add sizing stuff
 		embed=embed.replace(/WIDVAR/g, $( "#Player" ).innerWidth());
 		embed=embed.replace(/HEIVAR/g, $( "#Player" ).innerHeight());
 		$('#Player').html( embed );
 		$('#PlayingTitle').html( $(streamXML).find('channel[id="'+Channel+'"]').find('ChannelMessage').text() );
-		$('#'+Channel).addClass("selected");  
 	} else {
 		setChannel( $(streamXML).find('channel[default="1"]').attr('id') );
 	}
