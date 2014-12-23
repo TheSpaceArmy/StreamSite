@@ -1,11 +1,12 @@
 //Initializing global variables and strings
 var streamXML="";
 var currentStream="";
+var bannerHeight="";
 
 //Sets the channel
 function setChannel(Channel)
 {
-	if(Channel)
+	if(Channel!=="DEFAULT")
 	{
 		currentStream=Channel;
 		window.location.hash = $(streamXML).find('channel[id="'+Channel+'"]').attr('id');
@@ -13,11 +14,7 @@ function setChannel(Channel)
 			$(this).removeClass("selected");
 		});
 		$('#'+Channel).addClass("selected");
-		var embed = $(streamXML).find('channel[id="'+Channel+'"]').find('StreamEmbed').text();
-		//add sizing stuff
-		embed=embed.replace(/WIDVAR/g, $( "#Player" ).innerWidth());
-		embed=embed.replace(/HEIVAR/g, $( "#Player" ).innerHeight());
-		$('#Player').html( embed );
+		redrawPlayer();
 		$('#PlayingTitle').html( $(streamXML).find('channel[id="'+Channel+'"]').find('ChannelMessage').text() );
 	} else {
 		setChannel( $(streamXML).find('channel[default="1"]').attr('id') );
@@ -28,8 +25,14 @@ function redrawPlayer()
 {
 	var embed = $(streamXML).find('channel[id="'+currentStream+'"]').find('StreamEmbed').text();
 	//add sizing stuff
-	embed=embed.replace(/WIDVAR/g, $( "#Player" ).innerWidth());
-	embed=embed.replace(/HEIVAR/g, $( "#Player" ).innerHeight());
+	var width = $( "#Player" ).innerWidth();
+	var height = $( "#Player" ).innerHeight();
+	embed=embed.replace(/WIDVAR/g, width);
+	if( $("#Banner").css('display') == 'none'){
+		embed=embed.replace(/HEIVAR/g, height);
+	} else {
+		embed=embed.replace(/HEIVAR/g, height + bannerHeight);
+	}
 	$('#Player').html( embed );
 }
 
@@ -62,7 +65,8 @@ function getXmlAsString(xmlDom){
       return (typeof XMLSerializer!=="undefined") ? 
            (new window.XMLSerializer()).serializeToString(xmlDom) : 
            xmlDom.xml;
- }  
+}
+//constantly checks the XML for changes and acts in the event of changes
 function updateXMLAutomaton()
 {
 	$.get('resources/data/streamlist.xml', function (data) {
@@ -76,29 +80,26 @@ function updateXMLAutomaton()
 }
 //Main Routine	
 $(document).ready(function(){
+	//give the banner it's special magic
+	$("#Banner").hide();
+	$("#Header").hover(function(){
+		$("#Banner").toggle();
+	});
+	bannerHeight = $("#Banner").innerHeight();
 	//set the channel list
 	$.get('resources/data/streamlist.xml', function (data) {
 		streamXML = data;
 		redrawList();
 		updateXMLAutomaton(3000);
 		if(window.location.hash) {
-			setChannel(window.location.hash.substr(1));
+			setTimeout(setChannel(window.location.hash.substr(1)),500);
 		} else {
-			setChannel();
+			setTimeout(setChannel("DEFAULT"),500);
 		}
 	});
 	
-	//give the banner it's special magic
-	/* I'll reenable it when i figure things out
-	$("#Banner").hide();
-	$("#Header").hover(function(){
-		$("#Banner").toggle();
-	});
-	*/
 	
-	//Grab site hash, if none set it
-
 });
-$(window).resize(function() {
+$( window  ).resize(function(){
 	redrawPlayer();
 });
