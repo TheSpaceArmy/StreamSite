@@ -80,12 +80,13 @@ function updateXMLAutomaton()
 }
 //Main Routine	
 $(document).ready(function(){
+	bannerHeight = $("#Banner").innerHeight();
 	//give the banner it's special magic
 	$("#Banner").hide();
 	$("#Header").hover(function(){
 		$("#Banner").toggle();
 	});
-	bannerHeight = $("#Banner").innerHeight();
+	
 	//set the channel list
 	$.get('resources/data/streamlist.xml', function (data) {
 		streamXML = data;
