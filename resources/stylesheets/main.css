@@ -68,7 +68,6 @@ html,body{/*styling background, removing padding, etc*/
 	height:100%;
 	margin:0;
 	padding:10px 10px 10px;
-	overflow:hidden;
 }
 #Player {/*Contains player*/
 	flex: 9;
