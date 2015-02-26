@@ -2,24 +2,33 @@
 var streamXML="";
 var currentStream="";
 var bannerHeight="";
+var streamList='resources/data/dynamicStreamlist.php';
 
 //Sets the channel
 function setChannel(Channel)
 {
 	if(Channel!=="DEFAULT")
 	{
-		currentStream=Channel;
-		window.location.hash = $(streamXML).find('channel[id="'+Channel+'"]').attr('id');
-		$('.Button').each(function(button){
-			$(this).removeClass("selected");
-		});
-		$('#'+Channel).addClass("selected");
-		redrawPlayer();
-		$('#PlayingTitle').html( $(streamXML).find('channel[id="'+Channel+'"]').find('ChannelMessage').text() );
+		if(typeof $(streamXML).find('channel[id="'+Channel+'"]').attr('id') === "undefined")
+		{
+			setChannel("DEFAULT");
+		}
+		else
+		{
+			currentStream=Channel;
+			window.location.hash = $(streamXML).find('channel[id="'+Channel+'"]').attr('id');
+			$('.Button').each(function(button){
+				$(this).removeClass("selected");
+			});
+			$('#'+Channel).addClass("selected");
+			redrawPlayer();
+			$('#PlayingTitle').html( $(streamXML).find('channel[id="'+Channel+'"]').find('ChannelMessage').text() );
+		}
 	} else {
 		setChannel( $(streamXML).find('channel[default="1"]').attr('id') );
 	}
 }
+
 //Redraws Player
 function redrawPlayer()
 {
@@ -46,6 +55,10 @@ function redrawList()
 			if($(this).find('Type').text()== "Stream")
 			{
 				$('.ButtonContainer').append("<a class=\"Button\" id=\""+$(this).attr('id')+"\">"+$(this).find('ChannelName').text()+"</a>");
+				if($(this).find('Live').text()=="1")
+				{
+					$("#"+$(this).attr('id')).addClass('live');
+				}
 			}
 			else if($(this).find('Type').text()== "Outlink")
 			{
@@ -58,7 +71,12 @@ function redrawList()
 			$( "#"+$(this).attr('id') ).click(function(){setChannel( $(this).attr('id') );});
 		}
 	});
+	if(currentStream !== "")
+	{
+		$('#'+currentStream).addClass("selected");
+	}
 }
+
 //turns XML to string
 //from IBM's Aleksandar Kolundzija. http://www.ibm.com/developerworks/xml/tutorials/x-processxmljquerytut/index.html
 function getXmlAsString(xmlDom){
@@ -66,41 +84,43 @@ function getXmlAsString(xmlDom){
            (new window.XMLSerializer()).serializeToString(xmlDom) : 
            xmlDom.xml;
 }
+
 //constantly checks the XML for changes and acts in the event of changes
 function updateXMLAutomaton()
 {
-	$.get('resources/data/streamlist.xml', function (data) {
+	$.get(streamList, function (data) {
 		if(getXmlAsString(data)!==getXmlAsString(streamXML))
 		{
 			streamXML = data;
 			redrawList();
+			$('#PlayingTitle').html( $(streamXML).find('channel[id="'+currentStream+'"]').find('ChannelMessage').text());
 		}
 	});
-	setTimeout(updateXMLAutomaton, 3000);
+	
+	setTimeout(updateXMLAutomaton, 10000);
 }
+
 //Main Routine	
 $(document).ready(function(){
+	/* removed for now
 	bannerHeight = $("#Banner").innerHeight();
 	//give the banner it's special magic
+	
 	$("#Banner").hide();
 	$("#Header").hover(function(){
 		$("#Banner").toggle();
 	});
+	*/
 	
 	//set the channel list
-	$.get('resources/data/streamlist.xml', function (data) {
+	$.get(streamList, function (data) {
 		streamXML = data;
 		redrawList();
-		updateXMLAutomaton(3000);
+		updateXMLAutomaton(10000);
 		if(window.location.hash) {
 			setTimeout(setChannel(window.location.hash.substr(1)),500);
 		} else {
 			setTimeout(setChannel("DEFAULT"),500);
 		}
 	});
-	
-	
-});
-$( window  ).resize(function(){
-	redrawPlayer();
 });

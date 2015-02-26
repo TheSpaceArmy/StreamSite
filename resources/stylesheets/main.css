@@ -2,10 +2,6 @@
 font-family: BEBAS;
 src: url("../fonts/BebasNeue.otf") format("opentype");
 }
-@font-face {/*Defining MOD font*/
-font-family: MOD;
-src: url("../fonts/MOD.otf") format("opentype");
-}
 html,body{/*styling background, removing padding, etc*/
 	margin:0px;
 	padding:0px;
@@ -14,7 +10,10 @@ html,body{/*styling background, removing padding, etc*/
 	background-color:#444;
 }
 .selected{/*This is for selected Buttons*/
-	background-color:#444;
+	background-color:#444 !important;
+}
+.live{/*Class for live channel buttons*/
+	color:#FFF!important;
 }
 #SiteContainer {/*The floating element that contains everything*/
 	padding:0px;
@@ -25,6 +24,7 @@ html,body{/*styling background, removing padding, etc*/
 	flex-direction: column;
 }
 #Header {/*this is the header of the site*/
+	flex:none;
 	margin:0px;
 	Padding:0px;
 	color:#DDD;
@@ -48,12 +48,15 @@ html,body{/*styling background, removing padding, etc*/
 	text-decoration:none;
 	font-size:225%;
 	flex: 1;
+	color:#888;
 }
 #PlayingTitle {/*title above the player and chat, says what's playing*/
 	height:55px;
 	text-align:center;
 	font-family:"BEBAS",Arial,sans-serif;
 	font-size:300%;
+	color:#fff;
+	text-decoration: none;
 	margin-bottom:-6px;
 }
 #PlayerAndChatContainer{/*Contains player and chat*/
@@ -85,9 +88,6 @@ html,body{/*styling background, removing padding, etc*/
 	height:100%;
 	box-sizing: border-box;
 	box-shadow: 0px 0px 10px #000;
-}
-.ControlButtons{/*container for the channel buttons*/
-	color:#DDD;
 }
 #Footer {/*Is the footer at the very bottom*/
 	flex: none;
