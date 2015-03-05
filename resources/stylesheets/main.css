@@ -1,6 +1,6 @@
 @font-face {/*Defining Bebas font*/
-font-family: BEBAS;
-src: url("../fonts/BebasNeue.otf") format("opentype");
+	font-family: BEBAS;
+	src: url("../fonts/BebasNeue.otf") format("opentype");
 }
 html,body{/*styling background, removing padding, etc*/
 	margin:0px;
