@@ -102,25 +102,15 @@ function updateXMLAutomaton()
 
 //Main Routine	
 $(document).ready(function(){
-	/* removed for now
-	bannerHeight = $("#Banner").innerHeight();
-	//give the banner it's special magic
-	
-	$("#Banner").hide();
-	$("#Header").hover(function(){
-		$("#Banner").toggle();
-	});
-	*/
-	
 	//set the channel list
 	$.get(streamList, function (data) {
 		streamXML = data;
 		redrawList();
 		updateXMLAutomaton(10000);
 		if(window.location.hash) {
-			setTimeout(setChannel(window.location.hash.substr(1)),500);
+			setChannel(window.location.hash.substr(1));
 		} else {
-			setTimeout(setChannel("DEFAULT"),500);
+			setChannel("DEFAULT");
 		}
 	});
 });
