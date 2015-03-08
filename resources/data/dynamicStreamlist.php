@@ -5,11 +5,12 @@ header('Content-type: application/xml');
 
 require "config.php";
 
-function isLive($status,$app,$stream)
+function isLive($url,$app,$stream)
 {
 	/* Checks if stream is live on an nginx stat page
-	 * @inputs: $status(xml),$app(str),$stream(str)
+	 * @inputs: $url(str),$app(str),$stream(str)
 	 * @outputs: returns 1 if stream is live, 0 if not*/
+	 $status = simplexml_load_file($url);
 	foreach($status->server->application as $application)
 	{
 		if ($application->name==$app)
@@ -25,11 +26,12 @@ function isLive($status,$app,$stream)
 		}
 	}
 }
-function streamViewers($status,$app,$stream)
+function streamViewers($url,$app,$stream)
 {
 	/* Checks if stream is live on an nginx stat page
-	 * @inputs: $status(xml),$app(str),$stream(str)
+	 * @inputs: $url(str),$app(str),$stream(str)
 	 * @outputs: returns stream view count*/
+	 $status = simplexml_load_file($url);
 	foreach($status->server->application as $application)
 	{
 		if ($application->name==$app)
@@ -45,16 +47,16 @@ function streamViewers($status,$app,$stream)
 		}
 	}
 }
-$statXML = simplexml_load_file($serverStat);
+
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 echo "\n<ChannelList>\n";
 
 foreach($streamlist as $stream)
 {
 	echo "\t<channel id=\"".$stream["id"]."\" default=\"".$stream["default"]."\">\n";
-	if(isLive($statXML,"live",$stream["id"]))
+	if(isLive($serverStat,"live",$stream["id"]))
 	{
-		echo "\t\t<ChannelName>".$stream["name"]." (".streamViewers($statXML,"live",$stream["id"]).")</ChannelName>\n";
+		echo "\t\t<ChannelName>".$stream["name"]." (".streamViewers($serverStat,"live",$stream["id"]).")</ChannelName>\n";
 	}
 	else
 	{
@@ -66,7 +68,7 @@ foreach($streamlist as $stream)
 	{
 		echo "\t\t<ChannelMessage>".$stream["message"]."</ChannelMessage>\n";
 		echo "\t\t<StreamEmbed>".$stream["embed"]."</StreamEmbed>\n";
-		echo "\t\t<Live>".isLive($statXML,"live",$stream["id"])."</Live>\n";
+		echo "\t\t<Live>".isLive($serverStat,"live",$stream["id"])."</Live>\n";
 	}
 	if($stream["type"]=="Outlink")
 	{
