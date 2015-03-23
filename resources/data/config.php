@@ -15,6 +15,7 @@ $streamlist = array
 	 */
 	array("id"=>"ch1",
 	      "password"=>"Chan1Password",
+	      "nginxApps"=>"Live",
 	      "default"=>1,
 	      "name"=>"Channel One",
 	      "type"=>"Stream",
@@ -23,6 +24,7 @@ $streamlist = array
 	      "embed"=>"<![CDATA[ <iframe width=\"100%\" height=\"100%\" src=\"http://www.youtube.com/embed/yaqe1qesQ8c?rel=0&autoplay=1\" frameborder=\"0\" allowfullscreen></iframe>]]>"),
 	array("id"=>"ch2",
 	      "password"=>"Chan2Password",
+	      "nginxApps"=>"Live",
 	      "default"=>0,
 	      "name"=>"Channel Two",
 	      "type"=>"Stream",
@@ -31,6 +33,7 @@ $streamlist = array
 	      "embed"=>"<![CDATA[ <img src=\"http://placehold.it/WIDVARxHEIVAR\">]]>"),
 	array("id"=>"ch3",
 	      "password"=>"Chan3Password",
+	      "nginxApps"=>"Live",
 	      "default"=>0,
 	      "name"=>"Channel Three",
 	      "type"=>"Stream",
